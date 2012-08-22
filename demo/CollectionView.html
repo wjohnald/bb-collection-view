@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>CollectionView 2 - Demo</title>
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="foundation/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="foundation/stylesheets/app.css">
+
+  <script src="foundation/javascripts/modernizr.foundation.js"></script>
+
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+</head>
+<body>
+  <div class="row">
+    <div class="twelve columns">
+      <h2>CollectionView 2 - Demo</h2>
+      <p>This is version <strong>2</strong></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="four columns">
+      <div class="row">
+        <h4>Demo Controls</h4>
+        <div class="four columns">
+          <form data-list-operations>
+            <fieldset>
+              <legend>List Operations</legend>
+              <label for="sort-control">Sort by:</label>
+              <select name="sort-control" data-sort-control>
+                <option value="">None</option>
+                <option value="name">Name</option>
+                <option value="id">Id</option>
+              </select>
+              <label for="filter-control">Filter (name):</label>
+              <input name="filter-control" data-filter-control />
+            </fieldset>
+          </form>
+
+          <form data-collection-operations>
+            <fieldset>
+              <legend>Add Item</legend>
+              <label for="name-input">Name:</label>
+              <input name="name-input" data-name-input />
+              <label for="id-input">Id:</label>
+              <input name="id-input" data-id-input />
+              <input type="submit" value="Add item" />
+            </fieldset>
+          </form>
+        </div>
+        <div class="eight columns">
+        </div>
+      </div>
+    </div>
+    <div class="eight columns">
+      <h4>Demo Collection View</h4>
+      <div data-collection-view>
+      </div>
+    </div>
+  </div>
+
+  <!-- Included JS Files (Compressed) -->
+  <script src="foundation/javascripts/foundation.min.js"></script>
+  <!-- Initialize JS Plugins -->
+  <script src="foundation/javascripts/app.js"></script>
+
+  <script src="lib/jquery.js"></script>
+  <script src="lib/underscore.js"></script>
+  <script src="lib/backbone.js"></script>
+
+  <script src="../CollectionItemView.js"></script>
+  <script src="../CollectionView.js"></script>
+  <script type="text/javascript">
+
+    var collection = new Backbone.Collection([
+      {
+        name: "four",
+        id: 4
+      },
+      {
+        name: "two",
+        id: 2
+      },
+      {
+        name: "one",
+        id: 1
+      },
+      {
+        name: "three",
+        id: 3
+      }
+    ]);
+
+    var collectionView = new CollectionView({
+      collection: collection
+    });
+    $('[data-collection-view]').html(collectionView.$el);
+
+    var ControlPanel = Backbone.View.extend({
+
+      events: {
+        "change [data-sort-control]":   "sort",
+        "change [data-filter-control]": "filter"
+      },
+
+      sort: function(event) {
+        var val = $(event.target).val();
+
+        if (val) {
+          this.collection.comparator = function(item1, item2) {
+            return item1.get(val) > item2.get(val);
+          };
+          this.collection.sort();
+        }
+
+        return false;
+      },
+      
+      filter: function(event) {
+        var val = $(event.target).val();
+
+        if (val) {
+          collectionView.setFilter(function(item) {
+            return item.get('name') == val;
+          });
+        } else {
+          collectionView.setFilter(function(item) {
+            return true;
+          });
+        }
+
+        return false;
+      }
+
+    });
+
+    var controlPanel = new ControlPanel({
+      el: $('[data-list-operations]'),
+      collection: collection
+    });
+
+    var CreateView = Backbone.View.extend({
+
+      events: {
+        "submit":   "newItem"
+      },
+
+      newItem: function(event) {
+
+        var args = {};
+
+        args.name = this.$('[data-name-input]').val();
+        args.id = this.$('[data-id-input]').val();
+
+        this.collection.add(args);
+
+        this.$('[data-name-input]').val('');
+        this.$('[data-id-input]').val('');
+
+        return false;
+      }
+
+    });
+
+    var createView = new CreateView({
+      el: $('[data-collection-operations]'),
+      collection: collection
+    });
+
+  </script>
+</body>
+</html>
