@@ -1,8 +1,9 @@
 /*
  *  OPINIONS
  *
- *  1) Collection should never render automatically
- *  2) Sub-views should be rendered once on creation
+ *  1) Collection should render automatically
+ *  2) Sub-views should be rendered once on creation unless manually re-rendered
+ *  3) CollectionView should not need to be manually re-rendered except for rare cases
  *
  *  Dependencies:
  *   - CollectionItemView
