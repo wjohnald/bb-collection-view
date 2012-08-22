@@ -182,6 +182,12 @@
       collection: collection
     });
 
+    var model = collection.find(function(model) {
+      return model.get('id') == 3;
+    });
+
+    model.set({ name: "Three - post change" });
+
   </script>
 </body>
 </html>

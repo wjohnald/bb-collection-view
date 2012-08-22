@@ -4,6 +4,7 @@ var CollectionItemView = Backbone.View.extend({
 
     initialize: function(options) {
         this._parseOptions(options);
+        this._bindEvents();
     },
 
     render: function() {
@@ -28,6 +29,12 @@ var CollectionItemView = Backbone.View.extend({
             this.template = options.template;
         }
 
+    },
+
+    _bindEvents: function(options) {
+        this.model.on("change", function(model) {
+            this.render();
+        }, this);
     }
     
 });
