@@ -83,6 +83,9 @@
       <h4>Demo Collection View</h4>
       <div data-collection-view>
       </div>
+      <h4>Demo Collection Drop-down</h4>
+      <div data-collection-select-view>
+      </div>
     </div>
   </div>
 
@@ -97,6 +100,8 @@
 
   <script src="../CollectionItemView.js"></script>
   <script src="../CollectionView.js"></script>
+  <script src="../CollectionOptionView.js"></script>
+  <script src="../CollectionSelectView.js"></script>
   <script type="text/javascript">
 
     var collection = new Backbone.Collection([
@@ -121,7 +126,13 @@
     var collectionView = new CollectionView({
       collection: collection
     });
-    $('[data-collection-view]').html(collectionView.$el);
+    $('[data-collection-view]').append(collectionView.$el);
+
+    var collectionSelectView = new CollectionSelectView({
+      collection: collection,
+      addEmpty: true
+    });
+    $('[data-collection-select-view]').append(collectionSelectView.$el);
 
     var ControlPanel = Backbone.View.extend({
 
@@ -244,6 +255,9 @@
     });
 
     collectionView.on("click", function(event, item) {
+      editView.setModel(item);
+    });
+    collectionSelectView.on("click", function(event, item) {
       editView.setModel(item);
     });
 

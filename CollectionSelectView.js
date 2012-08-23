@@ -1,6 +1,6 @@
 /*
  *
- * TODO find out what event gets fired when selecting an option
+ * TODO make a checkbox version
  *
  */
 
@@ -52,7 +52,8 @@ var CollectionSelectView = CollectionView.extend({
         var val = this.$el.val();
 
         if (val) {
-            this.trigger("change", event, this.$el.val());
+            this.trigger("change", event, val);
+            $("option[value=" + val + "]").trigger("click");
         }
     },
 
