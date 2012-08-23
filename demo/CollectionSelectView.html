@@ -62,6 +62,18 @@
               <input type="submit" value="Add item" />
             </fieldset>
           </form>
+
+          <form data-model-operations>
+            <fieldset>
+              <legend>Edit Item</legend>
+              <label for="name-input">Name:</label>
+              <input name="name-input" data-name-input />
+              <label for="id-input">Id:</label>
+              <input name="id-input" data-id-input />
+              <input type="submit" value="Save item" />
+              <a href="#" data-cancel>Cancel</a>
+            </fieldset>
+          </form>
         </div>
         <div class="eight columns">
         </div>
@@ -87,8 +99,6 @@
   <script src="../CollectionView.js"></script>
   <script src="../CollectionOptionView.js"></script>
   <script src="../CollectionSelectView.js"></script>
-
-
   <script type="text/javascript">
 
     var collection = new Backbone.Collection([
@@ -114,12 +124,7 @@
       collection: collection,
       addEmpty: true
     });
-    collectionView.on("change", function(event, val) {
-      alert(val);
-
-      event.stopPropagation();
-    });
-    $('[data-collection-view]').append(collectionView.$el);
+    $('[data-collection-view]').html(collectionView.$el);
 
     var ControlPanel = Backbone.View.extend({
 
@@ -132,10 +137,7 @@
         var val = $(event.target).val();
 
         if (val) {
-          this.collection.comparator = function(item1, item2) {
-            return item1.get(val) > item2.get(val);
-          };
-          this.collection.sort();
+          collectionView.setSortKey(val);
         }
 
         return false;
@@ -192,12 +194,62 @@
       collection: collection
     });
 
-    var model = collection.find(function(model) {
-      return model.get('id') == 3;
+    var EditView = Backbone.View.extend({
+      events: {
+        "submit":               "saveItem",
+        "click [data-cancel]":  "cancel"
+      },
+
+      setModel: function(item) {
+        this.model = item;
+        this.render();
+      },
+
+      saveItem: function(event) {
+        if (this.model) {
+          this.model.set(this.getArgs());
+        }
+
+        event.preventDefault();
+        return false;
+      },
+
+      cancel: function(event) {
+
+        this.setModel(null);
+
+        event.preventDefault();
+        return false;
+      },
+
+      render: function() {
+        if (this.model) {
+          this.$('[data-name-input]').val(this.model.get('name'));
+          this.$('[data-id-input]').val(this.model.get('id'));
+        } else {
+          this.$('[data-name-input]').val('');
+          this.$('[data-id-input]').val('');
+        }
+
+        return this;
+      },
+
+      getArgs: function() {
+        var args = {};
+        args.name = this.$('[data-name-input]').val();
+        args.id = this.$('[data-id-input]').val();
+
+        return args;
+      }
+    });
+    var editView = new EditView({
+      el: $('[data-model-operations]')
     });
 
-    model.set({ name: "Three - post change" });
-    
+    collectionView.on("click", function(event, item) {
+      editView.setModel(item);
+    });
+
   </script>
 </body>
 </html>

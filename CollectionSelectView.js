@@ -1,3 +1,9 @@
+/*
+ *
+ * TODO find out what event gets fired when selecting an option
+ *
+ */
+
 var CollectionSelectView = CollectionView.extend({
 
     tagName: "select",

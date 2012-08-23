@@ -2,6 +2,10 @@ var CollectionItemView = Backbone.View.extend({
 
     tagName: "ul",
 
+    events: {
+        "click":    "onClick"
+    },
+
     initialize: function(options) {
         this._parseOptions(options);
         this._bindEvents();
@@ -21,6 +25,10 @@ var CollectionItemView = Backbone.View.extend({
         });
 
         return html + "";
+    },
+
+    onClick: function(event) {
+        this.trigger("click", event, this.model);
     },
 
     _parseOptions: function(options) {

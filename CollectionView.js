@@ -20,6 +20,8 @@ var CollectionView = Backbone.View.extend({
 
     itemOptions: null,
 
+    sortKey: null,
+
     initialize: function(options) {
         this.itemViews = [];
         this.itemOptions = {};
@@ -58,8 +60,7 @@ var CollectionView = Backbone.View.extend({
 
         if (options && options.index && (options.index < this.itemViews.length)) {
             
-            var pivotView = this.itemViews[options.index].$el;
-            
+            var pivotView = this.itemViews[options.index];
             this.itemViews.splice(options.index, 0, view);
 
             if (this._collectionFilter(item)) {
@@ -109,6 +110,29 @@ var CollectionView = Backbone.View.extend({
         }, this);
     },
 
+    setSortKey: function(sortKey, comparator) {
+
+        if (this.sortKey) {
+            this.collection.off("change:" + this.sortKey);
+        }
+
+        this.sortKey = sortKey;
+
+        if (comparator) {
+            this.collection.comparator = comparator;
+        } else {
+            this.collection.comparator = function(item1, item2) {
+                return item1.get(sortKey) > item2.get(sortKey);
+            };
+        }
+
+        this.collection.on("change:" + this.sortKey, function() {
+            this.collection.sort();
+        }, this);
+
+        this.collection.sort();
+    },
+
     setFilter: function(filter) {
         this._collectionFilter = filter;
         this.render();
@@ -135,9 +159,15 @@ var CollectionView = Backbone.View.extend({
     },
 
     _createItemView: function(item) {
-        return new this.itemViewConstructor({
+        var view = new this.itemViewConstructor({
             model: item
         });
+
+        view.on("click", function(event, item) {
+            this.trigger("click", event, item);
+        }, this);
+
+        return view;
     },
 
     _bindEvents: function() {
