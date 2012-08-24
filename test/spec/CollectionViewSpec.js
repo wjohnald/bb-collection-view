@@ -1,26 +1,5 @@
 describe("CollectionView", function() {
-    // it("should be able to create subviews", function() {
-    //     var view = collectionView.createSubView( new Backbone.Model({ name: "New Model" }));
-    //     view.render();
-    //     expect(view.$el.html()).toBe("New Model");
-    // });
-
-    // it("should call add when adding items to the collection", function() {
-    //     collection.add(new Backbone.Model({ name: "new super model " }));
-    //     expect(collectionView.subViews.length == collection.length).toBe(true);
-    // });
-
-    // it("should call remove when removing items remove the collection", function() {
-    //     var model = collection.pop();
-    //     expect(collectionView.subViews.length == collection.length).toBe(true);
-    // });
-
-    // it("should addAll and render when the collection is reset", function() {
-    //     spyOn(collectionView, "addAll");
-    //     collection.reset();
-    //     expect(collectionView.addAll).toHaveBeenCalled();
-    // });
-
+    
     var data;
     var collection;
     var collectionView;
