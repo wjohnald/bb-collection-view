@@ -156,6 +156,10 @@ var CollectionView = Backbone.View.extend({
             this.itemOptions = options.itemOptions;
         }
 
+        if (options.filter) {
+            this.setFilter(options.filter);
+        }
+
     },
 
     _createItemView: function(item) {
