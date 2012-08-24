@@ -58,7 +58,7 @@ var CollectionSelectView = CollectionView.extend({
 
         if (val) {
             this.trigger("change", event, val, this.collection);
-            this.$("option[value=" + val + "]").trigger("click");
+            this.$("option[value='" + val + "']").trigger("click");
         }
     },
 

@@ -14,6 +14,12 @@ describe("CollectionSelectView", function() {
         return collection.at(0);
     }
 
+    function getViewForItem(item) {
+        return _.find(collectionView.itemViews, function(itemView) {
+            return itemView.model.cid == item.cid;
+        });
+    }
+
     function addItem() {
         var item = new Backbone.Model({ name: "five", id: 5 });
         collection.add(item);
@@ -210,6 +216,21 @@ describe("CollectionSelectView", function() {
 
         expect($emptyItem.val()).toBe("");
         expect($emptyItem.html()).toBe("Select an item");
+    });
+
+    it("should be able to handle item with multiple word values", function() {
+        var item = new Backbone.Model({
+            name: "North America",
+            id: "North America"
+        });
+        collection.add(item);
+
+        collectionView.on("click", function(event, i) {
+            expect(i.cid).toBe(item.cid);
+        });
+
+        var itemView = getViewForItem(item);
+        itemView.$el.trigger("click");
     });
 
 });
