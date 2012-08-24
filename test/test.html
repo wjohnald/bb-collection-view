@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Jasmine Test Runner</title>
+    <link rel="stylesheet" type="text/css" href="jasmine-standalone-1.0.0/lib/jasmine-1.0.0/jasmine.css">
+
+    <!-- Backbone 'n Underscore -->
+    <script type="text/javascript" src="../demo/lib/jquery.js"></script>
+    <script type="text/javascript" src="../demo/lib/underscore.js"></script>
+    <script type="text/javascript" src="../demo/lib/backbone.js"></script>
+
+    <script type="text/javascript" src="jasmine-standalone-1.0.0/lib/jasmine-1.0.0/jasmine.js"></script>
+    <script type="text/javascript" src="jasmine-standalone-1.0.0/lib/jasmine-1.0.0/jasmine-html.js"></script>
+
+    <!-- Source files -->
+    <script type="text/javascript" src="../CollectionItemView.js"></script>
+    <script type="text/javascript" src="../CollectionView.js"></script>
+    <script type="text/javascript" src="../CollectionOptionView.js"></script>
+    <script type="text/javascript" src="../CollectionSelectView.js"></script>
+
+    <!-- Spec files -->
+    <script type="text/javascript" src="spec/CollectionItemViewSpec.js"></script>
+    <script type="text/javascript" src="spec/CollectionViewSpec.js"></script>
+    <script type="text/javascript" src="spec/CollectionOptionViewSpec.js"></script>
+    <script type="text/javascript" src="spec/CollectionSelectViewSpec.js"></script>
+
+  </head>
+  <body>
+
+
+    <script type="text/javascript">
+      jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+      jasmine.getEnv().execute();
+    </script>
+
+
+  </body>
+</html>
