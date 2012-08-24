@@ -12,7 +12,7 @@
 
 var CollectionView = Backbone.View.extend({
 
-    tagName: "ul",
+    tagName: "div",
 
     itemViewConstructor: CollectionItemView,
 
