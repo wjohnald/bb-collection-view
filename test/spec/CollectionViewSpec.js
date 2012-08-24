@@ -185,12 +185,12 @@ describe("CollectionView", function() {
         checkDOMEvents();
     });
 
-    it("should redelegate DOM events after a hard reset", function() {
+    it("should maintain DOM event listeners after a hard reset", function() {
         collectionView.reset();
         checkDOMEvents();
     });
 
-    it("should redelegate DOM events after a manual render", function() {
+    it("should maintain DOM event listeners after a manual render", function() {
         collectionView.render();
         checkDOMEvents();
     });
