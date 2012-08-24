@@ -1,5 +1,5 @@
 describe("CollectionView", function() {
-    
+
     var data;
     var collection;
     var collectionView;
@@ -152,7 +152,7 @@ describe("CollectionView", function() {
     });
 
     // Verifies bound event: "change:<sort key>"
-    it("should resort the collection when an item's sort key has been changed", function() {
+    it("should re-sort the collection when an item's sort key has been changed", function() {
         collectionView.setSortKey("id");
         var item = getItem();
         spyOn(collection, "sort");
