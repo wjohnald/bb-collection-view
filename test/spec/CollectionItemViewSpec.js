@@ -1,17 +1,40 @@
 describe("CollectionItemView", function() {
-    // it("should render when model changes", function() {
-    //     var testItem = new Backbone.Model({
-    //         name: "TestItem"
-    //     });
 
-    //     var itemView = new CollectionItemView({
-    //         label:      "TestItemView",
-    //         model:      testItem
-    //     });
+    var data;
+    var model;
+    var itemView;
 
-    //     spyOn(itemView, "render");
+    beforeEach(function() {
+        data = {
+            name: "one",
+            id: "1"
+        };
 
-    //     testItem.set({ name: "NewName" });
-    //     expect(itemView.render).toHaveBeenCalled();
-    // });
+        model = new Backbone.Model(data);
+
+        itemView = new CollectionItemView({
+            model: model
+        });
+    });
+
+    // Verifies bound event: change
+    it("should render when the model has changed", function() {
+        spyOn(itemView, "render");
+        model.set({ id: "2" });
+        expect(itemView.render).toHaveBeenCalled();
+    });
+
+    it("should render a default template if none has been supplied", function() {
+        expect(itemView.$el.html().length > 0).toBe(true);
+    });
+
+    it("should post a click event with the event and the item when the $el has been clicked", function() {
+        itemView.on("click", function(event, item) {
+            expect(event.type == "click").toBe(true);
+            expect(item.cid == model.cid).toBe(true);
+        });
+
+        itemView.$el.trigger("click");
+    });
+
 });

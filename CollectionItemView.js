@@ -9,6 +9,8 @@ var CollectionItemView = Backbone.View.extend({
     initialize: function(options) {
         this._parseOptions(options);
         this._bindEvents();
+
+        this.render();
     },
 
     render: function() {

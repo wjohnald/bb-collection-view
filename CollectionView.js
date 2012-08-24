@@ -52,7 +52,7 @@ var CollectionView = Backbone.View.extend({
 
     // This will be bound to the collection's add event
     add: function(item, options) {
-        var view = this._createItemView(item).render();
+        var view = this._createItemView(item);
 
         options = _.defaults(options || {}, {
             index: false
