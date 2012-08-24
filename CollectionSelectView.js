@@ -33,6 +33,11 @@ var CollectionSelectView = CollectionView.extend({
     render: function() {
         this.$el.html('');
         
+        // We don't want to add a blank model to the collection
+        // because we don't want to interfere with collection data
+        //
+        // We don't need to do this in reset, because reset will
+        // only remove itemViews
         if (this.addEmpty) {
             this.$el.append(this._createEmpty());
         }
@@ -53,7 +58,7 @@ var CollectionSelectView = CollectionView.extend({
 
         if (val) {
             this.trigger("change", event, val, this.collection);
-            $("option[value=" + val + "]").trigger("click");
+            this.$("option[value=" + val + "]").trigger("click");
         }
     },
 
@@ -68,7 +73,7 @@ var CollectionSelectView = CollectionView.extend({
     _createEmpty: function() {
         var $empty = $('<option />');
         $empty.val('');
-        $empty.html('Select One');
+        $empty.html(this.addEmpty);
 
         return $empty;
     }

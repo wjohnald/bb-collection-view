@@ -5,11 +5,17 @@ var ControlPanel = Backbone.View.extend({
     "change [data-filter-control]": "filter"
   },
 
+  initialize: function(options) {
+    this.collectionViews = options.collectionViews;
+  },
+
   sort: function(event) {
     var val = $(event.target).val();
 
     if (val) {
-      collectionView.setSortKey(val);
+      _.each(this.collectionViews, function(collectionView) {
+        collectionView.setSortKey(val);
+      });
     }
 
     return false;
@@ -19,12 +25,16 @@ var ControlPanel = Backbone.View.extend({
     var val = $(event.target).val();
 
     if (val) {
-      collectionView.setFilter(function(item) {
-        return item.get('name') == val;
+      _.each(this.collectionViews, function(collectionView) {
+        collectionView.setFilter(function(item) {
+          return item.get('name') == val;
+        });
       });
     } else {
-      collectionView.setFilter(function(item) {
-        return true;
+      _.each(this.collectionViews, function(collectionView) {
+        collectionView.setFilter(function(item) {
+          return item.get('name') == val;
+        });
       });
     }
 

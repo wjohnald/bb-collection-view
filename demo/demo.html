@@ -134,14 +134,18 @@
     // Create a select view for the collection
     var collectionSelectView = new CollectionSelectView({
       collection: collection,
-      addEmpty: true
+      addEmpty: 'Select an item'
     });
     $('[data-collection-select-view]').append(collectionSelectView.$el);
 
     // Set up some demo controls
     var controlPanel = new ControlPanel({
       el: $('[data-list-operations]'),
-      collection: collection
+      collection: collection,
+      collectionViews: [
+        collectionView,
+        collectionSelectView
+      ]
     });
     var createView = new CreateView({
       el: $('[data-collection-operations]'),
