@@ -163,7 +163,7 @@ var CollectionView = Backbone.View.extend({
     },
 
     _createItemView: function(item) {
-        var view = new this.itemViewConstructor(_.extend({
+        var view = new this.itemViewConstructor(_.defaults({
             model: item
         }, this.itemOptions));
 
