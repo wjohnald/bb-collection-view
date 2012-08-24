@@ -163,9 +163,9 @@ var CollectionView = Backbone.View.extend({
     },
 
     _createItemView: function(item) {
-        var view = new this.itemViewConstructor({
+        var view = new this.itemViewConstructor(_.extend({
             model: item
-        });
+        }, this.itemOptions));
 
         view.on("click", function(event, item) {
             this.trigger("click", event, item, this.collection);
