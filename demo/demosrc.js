@@ -33,7 +33,7 @@ var ControlPanel = Backbone.View.extend({
     } else {
       _.each(this.collectionViews, function(collectionView) {
         collectionView.setFilter(function(item) {
-          return item.get('name') == val;
+          return true;
         });
       });
     }
