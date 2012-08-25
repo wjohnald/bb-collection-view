@@ -52,7 +52,7 @@ var CollectionSelectView = CollectionView.extend({
 
         return this;
     },
-
+    
     onChange: function(event) {
         var val = this.$el.val();
 
