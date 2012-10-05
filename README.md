@@ -1,6 +1,9 @@
 bb-collection-view
 ==================
 
+This is a plugin for Backbone that will make it easy to display a collection of arbitrary
+models.
+
 Why?
 ====
 

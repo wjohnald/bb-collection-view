@@ -91,7 +91,7 @@ describe("CollectionView", function() {
 
         collection = new Backbone.Collection(data);
 
-        collectionView = new CollectionView({
+        collectionView = new Backbone.CollectionView({
             collection: collection
         });
 

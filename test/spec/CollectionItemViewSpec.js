@@ -12,7 +12,7 @@ describe("CollectionItemView", function() {
 
         model = new Backbone.Model(data);
 
-        itemView = new CollectionItemView({
+        itemView = new Backbone.CollectionItemView({
             model: model
         });
     });

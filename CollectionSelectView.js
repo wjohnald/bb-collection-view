@@ -4,78 +4,84 @@
  *
  */
 
-var CollectionSelectView = CollectionView.extend({
+(function() {
+    var CollectionSelectView = Backbone.CollectionView.extend({
 
-    tagName: "select",
+        tagName: "select",
 
-    itemViewConstructor: CollectionOptionView,
+        itemViewConstructor: Backbone.CollectionOptionView,
 
-    addEmpty: false,
+        addEmpty: false,
 
-    events: {
-        "change":   "onChange"
-    },
+        events: {
+            "change":   "onChange"
+        },
 
-    initialize: function(options) {
-        this.itemViews = [];
-        this.itemOptions = {};
+        initialize: function(options) {
+            this.itemViews = [];
+            this.itemOptions = {};
 
-        this._parseOptions(options);
-        this._bindEvents();
+            this._parseOptions(options);
+            this._bindEvents();
 
-        if (this.addEmpty) {
-            this.$el.append(this._createEmpty());
-        }
-
-        this.reset();
-    },
-
-    render: function() {
-        this.$el.html('');
-        
-        // We don't want to add a blank model to the collection
-        // because we don't want to interfere with collection data
-        //
-        // We don't need to do this in reset, because reset will
-        // only remove itemViews
-        if (this.addEmpty) {
-            this.$el.append(this._createEmpty());
-        }
-
-        _.each(this.itemViews, function(view) {
-
-            if (this._collectionFilter(view.model)) {
-                view.delegateEvents(view.events);
-                this.$el.append(view.$el);
+            if (this.addEmpty) {
+                this.$el.append(this._createEmpty());
             }
-        }, this);
 
-        return this;
-    },
-    
-    onChange: function(event) {
-        var val = this.$el.val();
+            this.reset();
+        },
 
-        if (val) {
-            this.trigger("change", event, val, this.collection);
-            this.$("option[value='" + val + "']").trigger("click");
+        render: function() {
+            this.$el.html('');
+
+            // We don't want to add a blank model to the collection
+            // because we don't want to interfere with collection data
+            //
+            // We don't need to do this in reset, because reset will
+            // only remove itemViews
+            if (this.addEmpty) {
+                this.$el.append(this._createEmpty());
+            }
+
+            _.each(this.itemViews, function(view) {
+
+                if (this._collectionFilter(view.model)) {
+                    view.delegateEvents(view.events);
+                    this.$el.append(view.$el);
+                }
+            }, this);
+
+            return this;
+        },
+
+        onChange: function(event) {
+            var val = this.$el.val();
+
+            if (val) {
+                this.trigger("change", event, val, this.collection);
+                this.$("option[value='" + val + "']").trigger("click");
+            }
+        },
+
+        _parseOptions: function(options) {
+            Backbone.CollectionView.prototype._parseOptions.call(this, options);
+
+            if (options.addEmpty) {
+                this.addEmpty = options.addEmpty;
+            }
+        },
+
+        _createEmpty: function() {
+            var $empty = $('<option />');
+            $empty.val('');
+            $empty.html(this.addEmpty);
+
+            return $empty;
         }
-    },
 
-    _parseOptions: function(options) {
-        CollectionView.prototype._parseOptions.call(this, options);
+    });
 
-        if (options.addEmpty) {
-            this.addEmpty = options.addEmpty;
-        }
-    },
-
-    _createEmpty: function() {
-        var $empty = $('<option />');
-        $empty.val('');
-        $empty.html(this.addEmpty);
-
-        return $empty;
-    }
-
-});
+    _.extend(Backbone, {
+        CollectionSelectView: CollectionSelectView
+    });
+})();

@@ -1,16 +1,22 @@
-var CollectionOptionView = CollectionItemView.extend({
+(function() {
+  var CollectionOptionView = Backbone.CollectionItemView.extend({
 
-    tagName: "option",
+      tagName: "option",
 
-    valueField: "id",
+      valueField: "id",
 
-    labelField: "name",
+      labelField: "name",
 
-    render: function() {
-        this.$el.val(this.model.get(this.valueField));
-        this.$el.html(this.model.get(this.labelField));
+      render: function() {
+          this.$el.val(this.model.get(this.valueField));
+          this.$el.html(this.model.get(this.labelField));
 
-        return this;
-    }
-    
-});
+          return this;
+      }
+
+  });
+
+  _.extend(Backbone, {
+    CollectionOptionView: CollectionOptionView
+  });
+})();

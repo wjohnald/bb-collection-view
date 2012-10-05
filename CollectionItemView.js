@@ -1,50 +1,56 @@
-var CollectionItemView = Backbone.View.extend({
+(function() {
+    var CollectionItemView = Backbone.View.extend({
 
-    tagName: "ul",
+        tagName: "ul",
 
-    events: {
-        "click":    "onClick"
-    },
+        events: {
+            "click":    "onClick"
+        },
 
-    initialize: function(options) {
-        this._parseOptions(options);
-        this._bindEvents();
+        initialize: function(options) {
+            this._parseOptions(options);
+            this._bindEvents();
 
-        this.render();
-    },
+            this.render();
+        },
 
-    render: function() {
-        this.$el.html(this.template(this.model.toJSON()));
+        render: function() {
+            this.$el.html(this.template(this.model.toJSON()));
 
-        return this;
-    },
+            return this;
+        },
 
-    template: function(args) {
-        var html = "";
+        template: function(args) {
+            var html = "";
 
-        _.each(args, function(value, key) {
-            html += "<li><strong>" + key + "</strong>: " + value + "</li>";
-        });
+            _.each(args, function(value, key) {
+                html += "<li><strong>" + key + "</strong>: " + value + "</li>";
+            });
 
-        return html + "";
-    },
+            return html + "";
+        },
 
-    onClick: function(event) {
-        this.trigger("click", event, this.model);
-    },
+        onClick: function(event) {
+            this.trigger("click", event, this.model);
+        },
 
-    _parseOptions: function(options) {
+        _parseOptions: function(options) {
 
-        if (options.template) {
-            this.template = options.template;
+            if (options.template) {
+                this.template = options.template;
+            }
+
+        },
+
+        _bindEvents: function(options) {
+            this.model.on("change", function(model) {
+                this.render();
+            }, this);
         }
 
-    },
+    });
 
-    _bindEvents: function(options) {
-        this.model.on("change", function(model) {
-            this.render();
-        }, this);
-    }
-    
-});
+    _.extend(Backbone, {
+        CollectionItemView: CollectionItemView
+    });
+})();

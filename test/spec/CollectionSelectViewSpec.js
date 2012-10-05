@@ -99,7 +99,7 @@ describe("CollectionSelectView", function() {
 
         collection = new Backbone.Collection(data);
 
-        collectionView = new CollectionSelectView({
+        collectionView = new Backbone.CollectionSelectView({
             collection: collection
         });
 
@@ -207,7 +207,7 @@ describe("CollectionSelectView", function() {
     });
 
     it("should display a null item first when addEmpty is true", function() {
-        collectionView = new CollectionSelectView({
+        collectionView = new Backbone.CollectionSelectView({
             collection: collection,
             addEmpty: "Select an item"
         });
